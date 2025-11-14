@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,7 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     public Transform BulletSpawnPoint => _bulletSpawnPoint;
+    public static Action OnShot;
 
     [SerializeField] private Transform _bulletSpawnPoint;
     [SerializeField] private Bullet _bulletPrefab;
@@ -18,18 +20,34 @@ public class Gun : MonoBehaviour
         RotateGun();
     }
 
+    private void OnEnable()
+    {
+        OnShot += ShootProjectile;
+        OnShot += ResetLastFireTime;
+    }
+
+    private void OnDisable()
+    {
+        OnShot -= ShootProjectile;
+        OnShot -= ResetLastFireTime;
+    }
+
     private void Shoot()
     {
         if (Input.GetMouseButton(0) && Time.time >= _lastFireTime) {
-            ShootProjectile();
+            OnShot?.Invoke();
         }
     }
 
     private void ShootProjectile()
     {
-        _lastFireTime = Time.time + _gunFireCD;
         Bullet newBullet = Instantiate(_bulletPrefab, _bulletSpawnPoint.position, Quaternion.identity);
         newBullet.Init(bulletSpawnPosition:  _bulletSpawnPoint.position, mousePosition: _mousePosition);
+    }
+
+    private void ResetLastFireTime()
+    {
+        _lastFireTime = Time.time + _gunFireCD;
     }
 
     private void RotateGun()
