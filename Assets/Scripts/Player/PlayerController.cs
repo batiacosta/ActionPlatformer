@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform _feetTransform;
     [SerializeField] private Vector2 _groundCheck;
     [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private float _extraGravity = 700f;
+    [SerializeField] private float _gravityDelay = 0.2f;
 
     private bool _isGrounded = false;
     private Rigidbody2D _rigidBody;
@@ -18,6 +21,7 @@ public class PlayerController : MonoBehaviour
     private PlayerInput _playerInput;  
     private FrameInput _frameInput;
     private Movement _movement;
+    private float _timeInAir;
 
     public void Awake() {
         if (Instance == null) { Instance = this; }
@@ -33,6 +37,12 @@ public class PlayerController : MonoBehaviour
         Movement();
         Jump();
         HandleSpriteFlip();
+        GravityDelay();
+    }
+
+    private void FixedUpdate()
+    {
+        ApplyExtraGravity();
     }
 
     private bool CheckIfGrounded()
@@ -52,6 +62,25 @@ public class PlayerController : MonoBehaviour
         return transform.eulerAngles.y == 0;
     }
 
+    private void GravityDelay()
+    {
+        if (!CheckIfGrounded())
+        {
+            _timeInAir += Time.deltaTime;
+        }
+        else
+        {
+            _timeInAir = 0f;
+        }
+    }
+
+    private void ApplyExtraGravity()
+    {
+        if (_timeInAir > _gravityDelay)
+        {
+            _rigidBody.AddForce(new Vector2(0, -_extraGravity * Time.deltaTime));
+        }
+    }
     private void GatherInput()
     {
         _frameInput = _playerInput.FrameInput;
