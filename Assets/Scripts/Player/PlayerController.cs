@@ -13,28 +13,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
 
     private bool _isGrounded = false;
-    private Vector2 _movement;
     private Rigidbody2D _rigidBody;
 
     private PlayerInput _playerInput;  
     private FrameInput _frameInput;
+    private Movement _movement;
 
     public void Awake() {
         if (Instance == null) { Instance = this; }
 
         _rigidBody = GetComponent<Rigidbody2D>();
         _playerInput = GetComponent<PlayerInput>();
+        _movement = GetComponent<Movement>();
     }
 
     private void Update()
     {
         GatherInput();
+        Movement();
         Jump();
         HandleSpriteFlip();
-    }
-
-    private void FixedUpdate() {
-        Move();
     }
 
     private bool CheckIfGrounded()
@@ -56,15 +54,12 @@ public class PlayerController : MonoBehaviour
 
     private void GatherInput()
     {
-        // float moveX = Input.GetAxis("Horizontal");
         _frameInput = _playerInput.FrameInput;
-        _movement = new Vector2(_frameInput.Move.x * _moveSpeed, _rigidBody.linearVelocity.y);
-
     }
 
-    private void Move() {
+    private void Movement() {
 
-        _rigidBody.linearVelocity = new Vector2(_movement.x, _rigidBody.linearVelocityY);
+        _movement.SetCurrentDirection(_frameInput.Move.x);
     }
 
     private void Jump()
