@@ -14,6 +14,15 @@ public class Gun : MonoBehaviour
 
     private float _lastFireTime = 0f;
     private Vector2 _mousePosition;
+    private Animator _animator;
+
+    private static readonly int FIRE_HASH = Animator.StringToHash("Fire");
+
+    private void Start()
+    {
+        _animator = GetComponent<Animator>();
+    }
+
     private void Update()
     {
         Shoot();
@@ -24,12 +33,14 @@ public class Gun : MonoBehaviour
     {
         OnShot += ShootProjectile;
         OnShot += ResetLastFireTime;
+        OnShot += FireAnimation;
     }
 
     private void OnDisable()
     {
         OnShot -= ShootProjectile;
         OnShot -= ResetLastFireTime;
+        OnShot -= FireAnimation;
     }
 
     private void Shoot()
@@ -48,6 +59,11 @@ public class Gun : MonoBehaviour
     private void ResetLastFireTime()
     {
         _lastFireTime = Time.time + _gunFireCD;
+    }
+
+    private void FireAnimation()
+    {
+        _animator.Play(FIRE_HASH, 0, 0f);
     }
 
     private void RotateGun()
