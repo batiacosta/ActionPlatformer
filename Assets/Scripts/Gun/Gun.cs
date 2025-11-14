@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -17,12 +18,14 @@ public class Gun : MonoBehaviour
     private float _lastFireTime = 0f;
     private Vector2 _mousePosition;
     private Animator _animator;
+    private CinemachineImpulseSource _impulseSource;
     
     private ObjectPool<Bullet> _bulletPool;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _impulseSource = GetComponent< CinemachineImpulseSource>();
         CreateBulletPool();
     }
 
@@ -37,6 +40,7 @@ public class Gun : MonoBehaviour
         OnShot += ShootProjectile;
         OnShot += ResetLastFireTime;
         OnShot += FireAnimation;
+        OnShot += GunScreenShake;
     }
 
     private void OnDisable()
@@ -44,6 +48,7 @@ public class Gun : MonoBehaviour
         OnShot -= ShootProjectile;
         OnShot -= ResetLastFireTime;
         OnShot -= FireAnimation;
+        OnShot -= GunScreenShake;
     }
 
     private void CreateBulletPool()
@@ -79,6 +84,11 @@ public class Gun : MonoBehaviour
     private void FireAnimation()
     {
         _animator.Play(FIRE_HASH, 0, 0f);
+    }
+
+    private void GunScreenShake()
+    {
+        _impulseSource.GenerateImpulse();
     }
 
     private void RotateGun()
