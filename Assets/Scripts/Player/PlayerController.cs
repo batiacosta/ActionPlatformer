@@ -14,13 +14,16 @@ public class PlayerController : MonoBehaviour
 
     private bool _isGrounded = false;
     private Vector2 _movement;
-
     private Rigidbody2D _rigidBody;
+
+    private PlayerInput _playerInput;  
+    private FrameInput _frameInput;
 
     public void Awake() {
         if (Instance == null) { Instance = this; }
 
         _rigidBody = GetComponent<Rigidbody2D>();
+        _playerInput = GetComponent<PlayerInput>();
     }
 
     private void Update()
@@ -53,18 +56,22 @@ public class PlayerController : MonoBehaviour
 
     private void GatherInput()
     {
-        float moveX = Input.GetAxis("Horizontal");
-        _movement = new Vector2(moveX * _moveSpeed, _rigidBody.linearVelocity.y);
+        // float moveX = Input.GetAxis("Horizontal");
+        _frameInput = _playerInput.FrameInput;
+        _movement = new Vector2(_frameInput.Move.x * _moveSpeed, _rigidBody.linearVelocity.y);
+
     }
 
     private void Move() {
 
-        _rigidBody.linearVelocity = _movement;
+        _rigidBody.linearVelocity = new Vector2(_movement.x, _rigidBody.linearVelocityY);
     }
 
     private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && CheckIfGrounded()) {
+        if (!_frameInput.Jump) return;
+        
+        if (CheckIfGrounded()) {
             _rigidBody.AddForce(Vector2.up * _jumpStrength, ForceMode2D.Impulse);
         }
     }
