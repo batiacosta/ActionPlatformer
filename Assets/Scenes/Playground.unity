@@ -7727,7 +7727,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac92c8116167b104b829fceb3bfadda9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 20
   _jumpStrength: 12
   _feetTransform: {fileID: 1551187524}
   _groundCheck: {x: 1.19, y: 0.19}
@@ -7736,6 +7735,7 @@ MonoBehaviour:
     m_Bits: 64
   _extraGravity: 900
   _gravityDelay: 0.2
+  _coyoteTime: 0.1
 --- !u!70 &2011273897
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
