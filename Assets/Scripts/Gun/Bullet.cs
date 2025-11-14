@@ -11,19 +11,14 @@ public class Bullet : MonoBehaviour
 
     private Rigidbody2D _rigidBody;
 
+    public void Init(Vector2 bulletSpawnPosition, Vector2 mousePosition)
+    {
+        _fireDirection = (mousePosition - bulletSpawnPosition).normalized;
+    }
     private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
     }
-
-    private void Start() {
-        if (PlayerController.Instance.IsFacingRight()) {
-            _fireDirection = Vector2.right;
-        } else {
-            _fireDirection = Vector2.left;
-        }
-    }
-
     private void FixedUpdate()
     {
         _rigidBody.linearVelocity = _fireDirection * _moveSpeed;
