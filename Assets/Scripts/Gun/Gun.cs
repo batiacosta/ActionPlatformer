@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Pool;
 
 public class Gun : MonoBehaviour
 {
-    public Transform BulletSpawnPoint => _bulletSpawnPoint;
+    private static readonly int FIRE_HASH = Animator.StringToHash("Fire");
+    
     public static Action OnShot;
 
     [SerializeField] private Transform _bulletSpawnPoint;
@@ -15,12 +17,13 @@ public class Gun : MonoBehaviour
     private float _lastFireTime = 0f;
     private Vector2 _mousePosition;
     private Animator _animator;
-
-    private static readonly int FIRE_HASH = Animator.StringToHash("Fire");
+    
+    private ObjectPool<Bullet> _bulletPool;
 
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        CreateBulletPool();
     }
 
     private void Update()
@@ -43,6 +46,18 @@ public class Gun : MonoBehaviour
         OnShot -= FireAnimation;
     }
 
+    private void CreateBulletPool()
+    {
+        _bulletPool = new ObjectPool<Bullet>(
+            () => Instantiate(_bulletPrefab),
+            bullet => { bullet.gameObject.SetActive(true);},
+            bullet => { bullet.gameObject.SetActive(false);},
+            bullet => { Destroy(bullet.gameObject);},
+            false, // collection checking is not needed here and saves CPU
+            20,
+            40
+        );
+    }
     private void Shoot()
     {
         if (Input.GetMouseButton(0) && Time.time >= _lastFireTime) {
@@ -52,8 +67,8 @@ public class Gun : MonoBehaviour
 
     private void ShootProjectile()
     {
-        Bullet newBullet = Instantiate(_bulletPrefab, _bulletSpawnPoint.position, Quaternion.identity);
-        newBullet.Init(bulletSpawnPosition:  _bulletSpawnPoint.position, mousePosition: _mousePosition);
+        Bullet newBullet = _bulletPool.Get();
+        newBullet.Init(this, bulletSpawnPosition:  _bulletSpawnPoint.position, mousePosition: _mousePosition);
     }
 
     private void ResetLastFireTime()
@@ -73,4 +88,6 @@ public class Gun : MonoBehaviour
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // angle between -180 and 180 degrees
         transform.localRotation = Quaternion.Euler(0, 0, angle);
     }
+    
+    public void ReleaseBulletPool(Bullet bullet) => _bulletPool.Release(bullet);
 }
