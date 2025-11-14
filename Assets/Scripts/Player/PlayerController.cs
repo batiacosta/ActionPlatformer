@@ -6,22 +6,22 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance;
-
-    [SerializeField] private float _moveSpeed = 5f;
+    public static Action OnJump;
+    
     [SerializeField] private float _jumpStrength = 7f;
     [SerializeField] private Transform _feetTransform;
     [SerializeField] private Vector2 _groundCheck;
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private float _extraGravity = 700f;
     [SerializeField] private float _gravityDelay = 0.2f;
-
-    private bool _isGrounded = false;
+    
     private Rigidbody2D _rigidBody;
 
     private PlayerInput _playerInput;  
     private FrameInput _frameInput;
     private Movement _movement;
     private float _timeInAir;
+    private bool _doubleJumpAvailable;
 
     public void Awake() {
         if (Instance == null) { Instance = this; }
@@ -31,11 +31,21 @@ public class PlayerController : MonoBehaviour
         _movement = GetComponent<Movement>();
     }
 
+    private void OnEnable()
+    {
+        OnJump += ApplyJumpForce;
+    }
+
+    private void OnDisable()
+    {
+        OnJump -= ApplyJumpForce;
+    }
+
     private void Update()
     {
         GatherInput();
         Movement();
-        Jump();
+        HandleJump();
         HandleSpriteFlip();
         GravityDelay();
     }
@@ -87,17 +97,27 @@ public class PlayerController : MonoBehaviour
     }
 
     private void Movement() {
-
         _movement.SetCurrentDirection(_frameInput.Move.x);
     }
 
-    private void Jump()
+    private void HandleJump()
     {
         if (!_frameInput.Jump) return;
-        
-        if (CheckIfGrounded()) {
-            _rigidBody.AddForce(Vector2.up * _jumpStrength, ForceMode2D.Impulse);
+        if (_doubleJumpAvailable)
+        {
+            _doubleJumpAvailable = false;
+            OnJump?.Invoke();
+        }else if (CheckIfGrounded()) {
+            _doubleJumpAvailable = true;
+            OnJump?.Invoke();
         }
+    }
+
+    private void ApplyJumpForce()
+    {
+        _rigidBody.linearVelocityY = 0;
+        _timeInAir = 0f;
+        _rigidBody.AddForce(Vector2.up * _jumpStrength, ForceMode2D.Impulse);
     }
 
     private void HandleSpriteFlip()
