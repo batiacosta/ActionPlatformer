@@ -7,14 +7,29 @@ public class Movement : MonoBehaviour
     
     private Rigidbody2D _rigidBody;
     private float _moveX;
+    private bool _canMove = true;
+    private Knockback _knockback;
+    
 
     public void SetCurrentDirection(float currentDirection)
     {
         _moveX = currentDirection;
     }
-    private void Start()
+    private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody2D>();
+        _knockback = GetComponent<Knockback>();
+    }
+
+    private void OnEnable()
+    {
+        _knockback.OnKnockbackStart += CanMoveFalse;
+        _knockback.OnKnockbackEnd += CanMoveTrue;
+    }
+    private void OnDisable()
+    {
+        _knockback.OnKnockbackStart -= CanMoveFalse;
+        _knockback.OnKnockbackEnd -= CanMoveTrue;
     }
 
     private void FixedUpdate()
@@ -22,9 +37,20 @@ public class Movement : MonoBehaviour
         Move();
     }
 
+    private void CanMoveFalse()
+    {
+        _canMove = false;
+    }
+    private void CanMoveTrue()
+    {
+        _canMove = true;
+    }
     private void Move()
     {
+        if (!_canMove) return;
+        
         var movement = new Vector2(_moveX * _movementSpeed, _rigidBody.linearVelocityY);
         _rigidBody.linearVelocity = movement;
     }
+    
 }
