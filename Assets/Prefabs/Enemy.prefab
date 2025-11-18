@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2931160403932860084}
   - component: {fileID: 1873899333252231031}
   - component: {fileID: 2921493996071186599}
+  - component: {fileID: 1276428848744638778}
   - component: {fileID: -6445784336495608663}
   - component: {fileID: 2439280109293905887}
   - component: {fileID: 3313540786046931640}
@@ -93,6 +94,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c623fe6e2341b4a8baa58b18d9d38a6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Knockback
+  _knockbackTime: 0.2
+--- !u!114 &1276428848744638778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500829499347730933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daf4578edcfcf4f549dcdc4888f2c16f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Flash
+  _defaultMaterial: {fileID: 2100000, guid: ea0b2411b69004a9f9eb0ccc516c15c2, type: 2}
+  _whiteFlashMaterial: {fileID: 2100000, guid: f96304fb1e02c441b936bbccdddf5650, type: 2}
+  _flashTime: 0.1
 --- !u!50 &-6445784336495608663
 Rigidbody2D:
   serializedVersion: 5
