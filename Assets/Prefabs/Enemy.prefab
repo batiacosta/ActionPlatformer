@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1873899333252231031}
   - component: {fileID: 2921493996071186599}
   - component: {fileID: 1276428848744638778}
+  - component: {fileID: -4293426064654281722}
   - component: {fileID: -6445784336495608663}
   - component: {fileID: 2439280109293905887}
   - component: {fileID: 3313540786046931640}
@@ -110,6 +111,23 @@ MonoBehaviour:
   _defaultMaterial: {fileID: 2100000, guid: ea0b2411b69004a9f9eb0ccc516c15c2, type: 2}
   _whiteFlashMaterial: {fileID: 2100000, guid: f96304fb1e02c441b936bbccdddf5650, type: 2}
   _flashTime: 0.1
+--- !u!114 &-4293426064654281722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500829499347730933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fb91dc554d2e4f8797846d9262d7c04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ColorChanger
+  _fillSpriteRenderer: {fileID: 7564454557696005338}
+  _colors:
+  - {r: 0.5235849, g: 0.75676537, b: 1, a: 1}
+  - {r: 1, g: 0.504717, b: 0.504717, a: 1}
+  - {r: 0.5238032, g: 1, b: 0.48584908, a: 1}
 --- !u!50 &-6445784336495608663
 Rigidbody2D:
   serializedVersion: 5
