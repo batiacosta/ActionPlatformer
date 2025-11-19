@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
     public static Action OnJump;
     
+    public Vector2 MoveInput => _frameInput.Move;
+    
     [SerializeField] private float _jumpStrength = 7f;
     [SerializeField] private Transform _feetTransform;
     [SerializeField] private Vector2 _groundCheck;
