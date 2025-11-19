@@ -69,6 +69,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e652642db6260344cb636626629dc1de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _splatterPrefab: {fileID: 2230884441073078531, guid: adfee39a18ba64f04a47102c89fe3bbe, type: 3}
   _startingHealth: 3
 --- !u!114 &1873899333252231031
 MonoBehaviour:
