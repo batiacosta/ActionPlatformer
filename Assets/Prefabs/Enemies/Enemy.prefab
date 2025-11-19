@@ -70,6 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _splatterPrefab: {fileID: 2230884441073078531, guid: adfee39a18ba64f04a47102c89fe3bbe, type: 3}
+  _deathParticlesPrefab: {fileID: 1916259377249358976, guid: 3d879c6c83c314ff7ae7d3793ac00251, type: 3}
   _startingHealth: 3
 --- !u!114 &1873899333252231031
 MonoBehaviour:
