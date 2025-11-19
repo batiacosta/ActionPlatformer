@@ -5,7 +5,11 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    public Action OnDeath;
+    public static Action<Health> OnDeath;
+
+    public GameObject SplatterPrefab => _splatterPrefab;
+    public GameObject DeathParticlesPrefab => _deathParticlesPrefab;
+    
     [SerializeField] private GameObject _splatterPrefab;
     [SerializeField] private GameObject _deathParticlesPrefab ;
     [SerializeField] private int _startingHealth = 3;
@@ -16,18 +20,6 @@ public class Health : MonoBehaviour
         ResetHealth();
     }
 
-    private void OnEnable()
-    {
-        OnDeath += SpawnDeathVFX;
-        OnDeath += SpawnDeathSplatterPrefab;
-    }
-
-    private void OnDisable()
-    {
-        OnDeath -= SpawnDeathVFX;
-        OnDeath -= SpawnDeathSplatterPrefab;
-    }
-
     public void ResetHealth() {
         _currentHealth = _startingHealth;
     }
@@ -36,23 +28,8 @@ public class Health : MonoBehaviour
         _currentHealth -= amount;
 
         if (_currentHealth <= 0) {
-            OnDeath?.Invoke();
+            OnDeath?.Invoke(this);
             Destroy(gameObject);
         }
-    }
-
-    private void SpawnDeathSplatterPrefab()
-    {
-        var splatterInstance = Instantiate(_splatterPrefab, transform.position, Quaternion.identity);
-        var colorChanger = gameObject.GetComponent<ColorChanger>();
-        splatterInstance.GetComponent<SpriteRenderer>().color = colorChanger.DefaultColor;
-    }
-
-    private void SpawnDeathVFX()
-    {
-        var particlesInstance = Instantiate(_deathParticlesPrefab, transform.position, Quaternion.identity);
-        var particles = particlesInstance.GetComponent<ParticleSystem>().main;
-        var colorChanger = gameObject.GetComponent<ColorChanger>();
-        particles.startColor = colorChanger.DefaultColor;
     }
 }
