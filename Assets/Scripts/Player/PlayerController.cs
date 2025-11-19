@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance;
     public static Action OnJump;
     
+    public Vector2 MoveInput => _frameInput.Move;
+    
     [SerializeField] private float _jumpStrength = 7f;
     [SerializeField] private Transform _feetTransform;
     [SerializeField] private Vector2 _groundCheck;
@@ -41,6 +43,11 @@ public class PlayerController : MonoBehaviour
     {
         OnJump -= ApplyJumpForce;
     }
+    public bool CheckIfGrounded()
+    {
+        var isGrounded = Physics2D.OverlapBox(_feetTransform.position, _groundCheck, 0f, _groundLayer);
+        return isGrounded;
+    }
 
     private void Update()
     {
@@ -55,12 +62,6 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         ApplyExtraGravity();
-    }
-
-    private bool CheckIfGrounded()
-    {
-        var isGrounded = Physics2D.OverlapBox(_feetTransform.position, _groundCheck, 0f, _groundLayer);
-        return isGrounded;
     }
 
     private void OnDrawGizmos()
