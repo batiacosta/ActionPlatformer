@@ -1,4 +1,5 @@
  using System;
+ using Unity.VisualScripting;
  using UnityEngine;
 
  public class PlayerAnimations : MonoBehaviour
@@ -9,6 +10,17 @@
     [SerializeField] private float _hatTiltingModifier = 5;
     [SerializeField] private Transform _characterSpriteTransform;
     [SerializeField] private Transform _hatSpriteTransform;
+    [SerializeField] private ParticleSystem _poofParticles;
+
+    private void OnEnable()
+    {
+        PlayerController.OnJump += PlayPoofDustEffects;
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.OnJump -= PlayPoofDustEffects;
+    }
 
     private void Update()
     {
@@ -56,5 +68,10 @@
                 - tiltingAngle / _hatTiltingModifier
             );
         _hatSpriteTransform.rotation = Quaternion.Lerp(currentHatRotation, targetHatRotation, _tiltSpeed * _hatTiltingModifier * Time.deltaTime);
+    }
+
+    private void PlayPoofDustEffects()
+    {
+        _poofParticles.Play();
     }
 }
