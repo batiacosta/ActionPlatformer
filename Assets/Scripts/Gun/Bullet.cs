@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private GameObject _bulletParticlesPrefab;
     [SerializeField] private float _moveSpeed = 10f;
     [SerializeField] private int _damageAmount = 1;
     [SerializeField] private float _knockbackThrust = 20;
@@ -29,6 +30,9 @@ public class Bullet : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
+        
+        Instantiate(_bulletParticlesPrefab, transform.position, Quaternion.identity);
+        
         Health health = other.gameObject.GetComponent<Health>();
         health?.TakeDamage(_damageAmount);
         
