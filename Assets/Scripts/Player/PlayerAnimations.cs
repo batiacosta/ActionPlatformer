@@ -1,4 +1,5 @@
  using System;
+ using Unity.Cinemachine;
  using Unity.VisualScripting;
  using UnityEngine;
 
@@ -11,6 +12,17 @@
     [SerializeField] private Transform _characterSpriteTransform;
     [SerializeField] private Transform _hatSpriteTransform;
     [SerializeField] private ParticleSystem _poofParticles;
+    [SerializeField] private float _yVelocityCheck = -10;
+
+    private Vector2 _velocityBeforePhysicsUpdate;
+    private Rigidbody2D _rigidbody;
+    private CinemachineImpulseSource _cinemachineImpulseSource;
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
+    }
 
     private void OnEnable()
     {
@@ -26,6 +38,20 @@
     {
         DetectMoveDust();
         ApplyTilting();
+    }
+
+    private void FixedUpdate()
+    {
+        _velocityBeforePhysicsUpdate = _rigidbody.linearVelocity  ;
+    }
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (_velocityBeforePhysicsUpdate.y < _yVelocityCheck)
+        {
+            PlayPoofDustEffects();
+            _cinemachineImpulseSource.GenerateImpulse();
+        }
     }
 
     private void DetectMoveDust()
