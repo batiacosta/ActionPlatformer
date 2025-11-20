@@ -13,5 +13,6 @@ public class DiscoBall : MonoBehaviour, IHitable
     public void TakeHit()
     {
         _flash.StartFlash();
+        PartyManager.OnDiscoBallHit?.Invoke();
     }
 }
