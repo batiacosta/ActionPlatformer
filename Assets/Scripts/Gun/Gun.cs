@@ -14,11 +14,14 @@ public class Gun : MonoBehaviour
     [SerializeField] private Transform _bulletSpawnPoint;
     [SerializeField] private Bullet _bulletPrefab;
     [SerializeField] private float _gunFireCD = 0.5f;
+    [SerializeField] private GameObject _muzzleFlash;
+    [SerializeField] private float _muzzleFlashTime = 0.05f;
 
     private float _lastFireTime = 0f;
     private Vector2 _mousePosition;
     private Animator _animator;
     private CinemachineImpulseSource _impulseSource;
+    private Coroutine _muzzleFlashCoroutine;
     
     private ObjectPool<Bullet> _bulletPool;
 
@@ -28,19 +31,14 @@ public class Gun : MonoBehaviour
         _impulseSource = GetComponent< CinemachineImpulseSource>();
         CreateBulletPool();
     }
-
-    private void Update()
-    {
-        Shoot();
-        RotateGun();
-    }
-
+    
     private void OnEnable()
     {
         OnShot += ShootProjectile;
         OnShot += ResetLastFireTime;
         OnShot += FireAnimation;
         OnShot += GunScreenShake;
+        OnShot += MuzzleFlash;
     }
 
     private void OnDisable()
@@ -49,8 +47,17 @@ public class Gun : MonoBehaviour
         OnShot -= ResetLastFireTime;
         OnShot -= FireAnimation;
         OnShot -= GunScreenShake;
+        OnShot -= MuzzleFlash;
     }
-
+    
+    public void ReleaseBulletPool(Bullet bullet) => _bulletPool.Release(bullet);
+    
+    private void Update()
+    {
+        Shoot();
+        RotateGun();
+    }
+    
     private void CreateBulletPool()
     {
         _bulletPool = new ObjectPool<Bullet>(
@@ -98,6 +105,21 @@ public class Gun : MonoBehaviour
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // angle between -180 and 180 degrees
         transform.localRotation = Quaternion.Euler(0, 0, angle);
     }
-    
-    public void ReleaseBulletPool(Bullet bullet) => _bulletPool.Release(bullet);
+
+    private void MuzzleFlash()
+    {
+        _muzzleFlash.SetActive(true);
+        if (_muzzleFlashCoroutine != null)
+        {
+            StopCoroutine(_muzzleFlashCoroutine);
+        }
+
+        _muzzleFlashCoroutine = StartCoroutine(MuzzleFlashRouine());
+    }
+
+    private IEnumerator MuzzleFlashRouine()
+    {
+        yield return new WaitForSeconds(_muzzleFlashTime);
+        _muzzleFlash.SetActive(false);
+    }
 }
