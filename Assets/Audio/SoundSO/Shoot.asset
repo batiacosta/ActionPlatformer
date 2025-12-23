@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: Shoot
   m_EditorClassIdentifier: Assembly-CSharp::SoundSO
   AudioType: 0
-  Clip: {fileID: 0}
+  Clip: {fileID: 8300000, guid: 5626aadd971c24752b70323c92603c80, type: 3}
+  Loop: 0
+  RandomizePitch: 1
+  RandomPitchRangeModifier: 0.1
+  Volume: 1
+  Pitch: 1
