@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1088becdd20d44eaf9162f63cb1334ec, type: 3}
-  m_Name: Shoot
+  m_Name: Splatter1
   m_EditorClassIdentifier: Assembly-CSharp::SoundSO
   AudioType: 0
-  Clip: {fileID: 8300000, guid: 5626aadd971c24752b70323c92603c80, type: 3}
+  Clip: {fileID: 8300000, guid: 26f20dcbe5cf1498ea14ca03aa013558, type: 3}
   Loop: 0
   RandomizePitch: 1
-  RandomPitchRangeModifier: 0.209
-  Volume: 1
+  RandomPitchRangeModifier: 0.132
+  Volume: 1.113
   Pitch: 1

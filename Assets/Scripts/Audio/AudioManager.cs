@@ -5,21 +5,29 @@ using Random = UnityEngine.Random;
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] private float _masterVolume = 1;
-    [SerializeField] private SoundSO _gunShoot;
-    [SerializeField] private SoundSO _jumpSO;
-
+    [SerializeField] private SoundsCollectionSO _soundsCollectionSO;
     private void OnEnable()
     {
         Gun.OnShot += GunOnShoot;
         PlayerController.OnJump += OnJump;
+        Health.OnDeath += OnDeath;
     }
 
     private void OnDisable()
     {
         Gun.OnShot -= GunOnShoot;
         PlayerController.OnJump -= OnJump;
+        Health.OnDeath -= OnDeath;
     }
 
+    private void PlayRandomSound(SoundSO[] soundsSO)
+    {
+        if (soundsSO != null && soundsSO.Length > 0)
+        {
+            var soundSO = soundsSO[Random.Range(0, soundsSO.Length)];
+            SoundToPlay(soundSO);
+        }
+    }
     private void SoundToPlay(SoundSO soundSO)
     {
         var clip = soundSO.Clip;
@@ -49,10 +57,15 @@ public class AudioManager : MonoBehaviour
 
     private void GunOnShoot()
     {
-        SoundToPlay(_gunShoot);
+        PlayRandomSound(_soundsCollectionSO.GunShoot);
     }
     private void OnJump()
     {
-        SoundToPlay(_jumpSO);
+        PlayRandomSound(_soundsCollectionSO.Jump);
+    }
+
+    private void OnDeath(Health health)
+    {
+        PlayRandomSound(_soundsCollectionSO.Splat);
     }
 }
