@@ -12892,6 +12892,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   _gunShoot: {fileID: 11400000, guid: 095277204734441b3bbc286f0d381c6b, type: 2}
+  _jumpSO: {fileID: 11400000, guid: 8f6e5678124444aa3b42a5e43be92d7b, type: 2}
 --- !u!1 &1768856661
 GameObject:
   m_ObjectHideFlags: 0
