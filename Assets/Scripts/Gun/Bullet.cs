@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Combat;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private GameObject _bulletParticlesPrefab;
     [SerializeField] private float _moveSpeed = 10f;
     [SerializeField] private int _damageAmount = 1;
     [SerializeField] private float _knockbackThrust = 20;
@@ -29,14 +31,15 @@ public class Bullet : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        Health health = other.gameObject.GetComponent<Health>();
-        health?.TakeDamage(_damageAmount);
         
-        var knockback = other.gameObject.GetComponent<Knockback>();
-        knockback?.GetKnockedBack(PlayerController.Instance.transform.position, _knockbackThrust);
+        Instantiate(_bulletParticlesPrefab, transform.position, Quaternion.identity);
+
+        if (other.TryGetComponent(out IHitable hitable))
+            hitable.TakeHit();
+
+        if (other.TryGetComponent(out IDamageable damageable)) 
+            damageable.TakeDamage(_damageAmount, _knockbackThrust);
         
-        var flash = other.gameObject.GetComponent<Flash>();
-        flash?.StartFlash();
         
         _gun.ReleaseBulletPool(this);
     }

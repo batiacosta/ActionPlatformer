@@ -47,8 +47,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 324da6bc5594197419d59cac9e0abd95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bulletParticlesPrefab: {fileID: 197312896266746385, guid: 4e31a512718c24e6bb64c57a66acbc89, type: 3}
   _moveSpeed: 30
   _damageAmount: 1
+  _knockbackThrust: 20
 --- !u!212 &3373200371414082845
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -74,7 +76,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 24bf56204fdf54e89afe95c60ecaa66a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
