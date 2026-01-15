@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6737214a881884efa859e687ec5cb92a, type: 3}
+  m_Name: SoundsCollectionSO
+  m_EditorClassIdentifier: Assembly-CSharp::SoundsCollectionSO
+  FightMusic:
+  - {fileID: 11400000, guid: 445be926a8662433fa328b20f58fb95f, type: 2}
+  DiscoBallMusic:
+  - {fileID: 11400000, guid: 102e69d26a3d44aa2a52d84ef5a8500a, type: 2}
+  GunShoot:
+  - {fileID: 11400000, guid: 095277204734441b3bbc286f0d381c6b, type: 2}
+  Jump:
+  - {fileID: 11400000, guid: 8f6e5678124444aa3b42a5e43be92d7b, type: 2}
+  Splat:
+  - {fileID: 11400000, guid: 6291d4d130bd64cefadd77773cc9e794, type: 2}
+  - {fileID: 11400000, guid: 808afc4294d2942e4992cb8492180f48, type: 2}

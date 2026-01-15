@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.InputSystem;
 
 public class Gun : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class Gun : MonoBehaviour
     
     private void OnEnable()
     {
+        PlayerInput.OnShot += Shoot;
         OnShot += ShootProjectile;
         OnShot += ResetLastFireTime;
         OnShot += FireAnimation;
@@ -43,6 +45,7 @@ public class Gun : MonoBehaviour
 
     private void OnDisable()
     {
+        PlayerInput.OnShot -= Shoot;
         OnShot -= ShootProjectile;
         OnShot -= ResetLastFireTime;
         OnShot -= FireAnimation;
@@ -54,7 +57,7 @@ public class Gun : MonoBehaviour
     
     private void Update()
     {
-        Shoot();
+        //Shoot();
         RotateGun();
     }
     
@@ -72,7 +75,7 @@ public class Gun : MonoBehaviour
     }
     private void Shoot()
     {
-        if (Input.GetMouseButton(0) && Time.time >= _lastFireTime) {
+        if ( Time.time >= _lastFireTime) {
             OnShot?.Invoke();
         }
     }
@@ -100,7 +103,7 @@ public class Gun : MonoBehaviour
 
     private void RotateGun()
     {
-        _mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _mousePosition = Camera.main.ScreenToWorldPoint(Mouse.current.position.ReadValue());
         var direction = PlayerController.Instance.transform.InverseTransformPoint(_mousePosition); // takes the local position, so if player is flip, still gets the right direction
         var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // angle between -180 and 180 degrees
         transform.localRotation = Quaternion.Euler(0, 0, angle);
