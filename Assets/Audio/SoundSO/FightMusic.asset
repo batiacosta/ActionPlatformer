@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1088becdd20d44eaf9162f63cb1334ec, type: 3}
   m_Name: FightMusic
   m_EditorClassIdentifier: Assembly-CSharp::SoundSO
-  AudioType: 0
-  Clip: {fileID: 0}
-  Loop: 0
+  AudioType: 1
+  Clip: {fileID: 8300000, guid: 4dc4edf29234c4e2ebc57b940822a0a0, type: 3}
+  Loop: 1
   RandomizePitch: 0
   RandomPitchRangeModifier: 0.1
-  Volume: 1
+  Volume: 0.616
   Pitch: 1

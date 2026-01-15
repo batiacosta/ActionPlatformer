@@ -18405,7 +18405,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0267da07e06274031a195a96e739d833, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DiscoBallManager
-  _partyTime: 2
+  _partyTime: 7
   _globalLight: {fileID: 619394801}
   _globalLightPartyIntensity: 0.2
 --- !u!1 &2043640393

@@ -49,12 +49,25 @@ public class AudioManager : MonoBehaviour
         var volume = soundSO.Volume * _masterVolume;
         var loop =  soundSO.Loop;
         AudioMixerGroup audioMixerGroup;
+        pitch = RandomizePitch(soundSO, pitch);
+
+        audioMixerGroup = DetermineAudioMixerGroup(soundSO);
+        PlaySound(clip, pitch, volume, loop, audioMixerGroup);
+    }
+    private float RandomizePitch(SoundSO soundSO, float pitch)
+    {
         if (soundSO.RandomizePitch)
         {
             var randomPitchModifier = Random.Range(-soundSO.RandomPitchRangeModifier, soundSO.RandomPitchRangeModifier);
             pitch += randomPitchModifier;
         }
 
+        return pitch;
+    }
+
+    private AudioMixerGroup DetermineAudioMixerGroup(SoundSO soundSO)
+    {
+        AudioMixerGroup audioMixerGroup;
         switch (soundSO.AudioType)
         {
             case SoundSO.AudioTypes.Music:
@@ -67,9 +80,10 @@ public class AudioManager : MonoBehaviour
                 audioMixerGroup = null;
                 break;
         }
-        PlaySound(clip, pitch, volume, loop, audioMixerGroup);
-    }
 
+        return audioMixerGroup;
+    }
+    
     private void PlaySound(AudioClip clip, float pitch, float volume, bool loop, AudioMixerGroup audioMixerGroup)
     {
         var soundObject = new GameObject("Temp Audio Source");
@@ -82,13 +96,18 @@ public class AudioManager : MonoBehaviour
         audioSource.Play();
 
         if (!loop) Destroy(soundObject, clip.length);
+        DetermineMusicMixerGroup(audioMixerGroup, audioSource);
+}
+
+    private void DetermineMusicMixerGroup(AudioMixerGroup audioMixerGroup, AudioSource audioSource)
+    {
         if (audioMixerGroup == _musicMixerGroup)
         {
             if(_currentAudioSource != null) _currentAudioSource.Stop();
             
             _currentAudioSource = audioSource;
         }
-}
+    }
 
     private void GunOnShoot()
     {
@@ -113,6 +132,6 @@ public class AudioManager : MonoBehaviour
     {
         PlayRandomSound(_soundsCollectionSO.DiscoBallMusic);
         var soundLength = _soundsCollectionSO.DiscoBallMusic[0].Clip.length;
-        Invoke(nameof(FightMusic), soundLength);
+        Miscelanius.Utils.RunAfterDelay(this, soundLength, FightMusic);
     }
 }
