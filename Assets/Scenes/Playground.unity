@@ -12893,6 +12893,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   _masterVolume: 1
   _soundsCollectionSO: {fileID: 11400000, guid: 1fb4bef301160417d81cd0d1b2123262, type: 2}
+  _sfxMixerGroup: {fileID: 3630658256999968052, guid: d5773e6ade70e4cb9ba6b6493c6773c8, type: 2}
+  _musicMixerGroup: {fileID: 2171641777074614759, guid: d5773e6ade70e4cb9ba6b6493c6773c8, type: 2}
 --- !u!1 &1768856661
 GameObject:
   m_ObjectHideFlags: 0
