@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -172,6 +173,7 @@ public class PlayerController : MonoBehaviour
 
     private void StartJetpack()
     {
+        _jetpackTrailRenderer.emitting = true;
         _jetpackCoroutine = StartCoroutine(JetpackRoutine());
     }
 
@@ -186,6 +188,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
+        _jetpackTrailRenderer.emitting = false;
         _jetpackCoroutine = null;
     }
 }
