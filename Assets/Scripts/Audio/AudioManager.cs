@@ -22,6 +22,7 @@ public class AudioManager : MonoBehaviour
     {
         Gun.OnShot += GunOnShoot;
         PlayerController.OnJump += OnJump;
+        PlayerController.OnJetpack += OnJetpack;
         Health.OnDeath += OnDeath;
         PartyManager.OnDiscoBallHit += DiscoBallMusic;
     }
@@ -30,6 +31,7 @@ public class AudioManager : MonoBehaviour
     {
         Gun.OnShot -= GunOnShoot;
         PlayerController.OnJump -= OnJump;
+        PlayerController.OnJetpack -= OnJetpack;
         Health.OnDeath -= OnDeath;
         PartyManager.OnDiscoBallHit -= DiscoBallMusic;
     }
@@ -133,5 +135,10 @@ public class AudioManager : MonoBehaviour
         PlayRandomSound(_soundsCollectionSO.DiscoBallMusic);
         var soundLength = _soundsCollectionSO.DiscoBallMusic[0].Clip.length;
         Miscelanius.Utils.RunAfterDelay(this, soundLength, FightMusic);
+    }
+
+    private void OnJetpack()
+    {
+        PlayRandomSound(_soundsCollectionSO.Jetpack);
     }
 }
