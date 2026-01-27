@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Jetpack
   m_EditorClassIdentifier: Assembly-CSharp::SoundSO
   AudioType: 0
-  Clip: {fileID: 0}
+  Clip: {fileID: 8300000, guid: 673c6b2deff7c43a78a3799473dcc18f, type: 3}
   Loop: 0
-  RandomizePitch: 0
+  RandomizePitch: 1
   RandomPitchRangeModifier: 0.1
-  Volume: 1
+  Volume: 1.482
   Pitch: 1
