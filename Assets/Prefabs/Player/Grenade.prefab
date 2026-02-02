@@ -143,7 +143,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Grenade
   _launchForce: 15
   _torqueAmount: 2
+  _explosionRadious: 3.5
+  _damageAmount: 3
   _explodeVFX: {fileID: 197312896266746385, guid: a386807921b6647dab711f6a1e901b84, type: 3}
+  _enemyLayerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!212 &1571415285572841003
 SpriteRenderer:
   serializedVersion: 2

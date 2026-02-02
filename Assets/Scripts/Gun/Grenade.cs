@@ -15,7 +15,10 @@ public class Grenade : MonoBehaviour
     
     [SerializeField] private float _launchForce = 15f;
     [SerializeField] private float _torqueAmount = 2f;
+    [SerializeField] private float _explosionRadious = 3.5f;
+    [SerializeField] private int _damageAmount = 3;
     [SerializeField] private GameObject _explodeVFX;
+    [SerializeField] private LayerMask _enemyLayerMask;
 
     private Rigidbody2D _rigidbody;
     private CinemachineImpulseSource _impulseSource;
@@ -35,12 +38,14 @@ public class Grenade : MonoBehaviour
     {
         OnExplode += Explosion;
         OnExplode += GrenadeScreenShake;
+        OnExplode += DamageNearby;
     }
 
     private void OnDisable()
     {
         OnExplode -= Explosion;
         OnExplode -= GrenadeScreenShake;
+        OnExplode -=DamageNearby;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -68,5 +73,16 @@ public class Grenade : MonoBehaviour
     private void GrenadeScreenShake()
     {
         _impulseSource.GenerateImpulse();
+    }
+
+    private void DamageNearby()
+    {
+        var hits = Physics2D.OverlapCircleAll(transform.position, _explosionRadious, _enemyLayerMask);
+
+        foreach (var hit in hits)
+        {
+            var health = hit.GetComponent<Health>();
+            health?.TakeDamage(_damageAmount);
+        }
     }
 }
