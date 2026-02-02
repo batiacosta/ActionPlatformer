@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: GrenadeBeep
   m_EditorClassIdentifier: Assembly-CSharp::SoundSO
   AudioType: 0
-  Clip: {fileID: 0}
+  Clip: {fileID: 8300000, guid: 20b2fbdc683fb489cb7481386c922a4e, type: 3}
   Loop: 0
   RandomizePitch: 0
   RandomPitchRangeModifier: 0.1
   Volume: 1
-  Pitch: 1
+  Pitch: 1.276
