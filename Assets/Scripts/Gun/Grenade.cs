@@ -47,7 +47,9 @@ public class Grenade : MonoBehaviour
         OnExplode += Explosion;
         OnExplode += GrenadeScreenShake;
         OnExplode += DamageNearby;
+        OnExplode += AudioManager.Instance.OnGrenadeExplode;
         OnBeep += BlinkLight;
+        OnBeep += AudioManager.Instance.GrenadeOnBeep;
     }
 
     private void OnDisable()
@@ -55,7 +57,9 @@ public class Grenade : MonoBehaviour
         OnExplode -= Explosion;
         OnExplode -= GrenadeScreenShake;
         OnExplode -=DamageNearby;
+        OnExplode -= AudioManager.Instance.OnGrenadeExplode;
         OnBeep -= BlinkLight;
+        OnBeep -= AudioManager.Instance.GrenadeOnBeep;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
