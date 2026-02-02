@@ -11,18 +11,24 @@ public class Gun : MonoBehaviour
     private static readonly int FIRE_HASH = Animator.StringToHash("Fire");
     
     public static Action OnShot;
-
+    public static Action OnGrenateShoot;
+    
     [SerializeField] private Transform _bulletSpawnPoint;
+    [Header("Bullet")]
     [SerializeField] private Bullet _bulletPrefab;
     [SerializeField] private float _gunFireCD = 0.5f;
     [SerializeField] private GameObject _muzzleFlash;
     [SerializeField] private float _muzzleFlashTime = 0.05f;
+    [Header("Grenade")]
+    [SerializeField] private GameObject _grenadePrefab;
+    [SerializeField] private float _grenadeShootCD = 0.8f;
 
     private float _lastFireTime = 0f;
     private Vector2 _mousePosition;
     private Animator _animator;
     private CinemachineImpulseSource _impulseSource;
     private Coroutine _muzzleFlashCoroutine;
+    private float _lastGrenadeTime = 0f;
     
     private ObjectPool<Bullet> _bulletPool;
 
@@ -36,28 +42,35 @@ public class Gun : MonoBehaviour
     private void OnEnable()
     {
         PlayerInput.OnShot += Shoot;
+        PlayerInput.OnGrenade += PlayerInput_OnGrenade;
         OnShot += ShootProjectile;
         OnShot += ResetLastFireTime;
         OnShot += FireAnimation;
         OnShot += GunScreenShake;
         OnShot += MuzzleFlash;
+        OnGrenateShoot += ShootGrenade;
+        OnGrenateShoot += FireAnimation;
+        OnGrenateShoot += ResetLastGrenadeShootTime;
     }
 
     private void OnDisable()
     {
         PlayerInput.OnShot -= Shoot;
+        PlayerInput.OnGrenade -= PlayerInput_OnGrenade;
         OnShot -= ShootProjectile;
         OnShot -= ResetLastFireTime;
         OnShot -= FireAnimation;
         OnShot -= GunScreenShake;
         OnShot -= MuzzleFlash;
+        OnGrenateShoot -= ShootGrenade;
+        OnGrenateShoot -= FireAnimation;
+        OnGrenateShoot += ResetLastGrenadeShootTime;
     }
     
     public void ReleaseBulletPool(Bullet bullet) => _bulletPool.Release(bullet);
     
     private void Update()
     {
-        //Shoot();
         RotateGun();
     }
     
@@ -80,15 +93,34 @@ public class Gun : MonoBehaviour
         }
     }
 
+    private void PlayerInput_OnGrenade()
+    {
+        if (Time.time >= _lastGrenadeTime)
+        {
+            OnGrenateShoot?.Invoke();
+        }
+    }
+
     private void ShootProjectile()
     {
         Bullet newBullet = _bulletPool.Get();
         newBullet.Init(this, bulletSpawnPosition:  _bulletSpawnPoint.position, mousePosition: _mousePosition);
     }
 
+    private void ShootGrenade()
+    {
+        Instantiate(_grenadePrefab, _bulletSpawnPoint.position, Quaternion.identity);
+        _lastGrenadeTime = Time.deltaTime;
+    }
+
     private void ResetLastFireTime()
     {
         _lastFireTime = Time.time + _gunFireCD;
+    }
+
+    private void ResetLastGrenadeShootTime()
+    {
+        _lastGrenadeTime = Time.time + _grenadeShootCD;
     }
 
     private void FireAnimation()

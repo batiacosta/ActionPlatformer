@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance;
     [Range(0f, 2f)]
     [SerializeField] private float _masterVolume = 1;
     [SerializeField] private SoundsCollectionSO _soundsCollectionSO;
@@ -12,6 +13,11 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioMixerGroup _musicMixerGroup;
 
     private AudioSource _currentAudioSource;
+
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
 
     private void Start()
     {
@@ -21,6 +27,7 @@ public class AudioManager : MonoBehaviour
     private void OnEnable()
     {
         Gun.OnShot += GunOnShoot;
+        Gun.OnGrenateShoot += GunOnGrenadeShoot;
         PlayerController.OnJump += OnJump;
         PlayerController.OnJetpack += OnJetpack;
         Health.OnDeath += OnDeath;
@@ -30,6 +37,7 @@ public class AudioManager : MonoBehaviour
     private void OnDisable()
     {
         Gun.OnShot -= GunOnShoot;
+        Gun.OnGrenateShoot -= GunOnGrenadeShoot;
         PlayerController.OnJump -= OnJump;
         PlayerController.OnJetpack -= OnJetpack;
         Health.OnDeath -= OnDeath;
@@ -111,6 +119,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    #region VFX
     private void GunOnShoot()
     {
         PlayRandomSound(_soundsCollectionSO.GunShoot);
@@ -125,6 +134,29 @@ public class AudioManager : MonoBehaviour
         PlayRandomSound(_soundsCollectionSO.Splat);
     }
 
+    private void OnJetpack()
+    {
+        PlayRandomSound(_soundsCollectionSO.Jetpack);
+    }
+
+    public void GrenadeOnBeep()
+    {
+        PlayRandomSound(_soundsCollectionSO.GrenadeBeep);
+    }
+
+    public void OnGrenadeExplode()
+    {
+        PlayRandomSound(_soundsCollectionSO.GrenadeExplosions);
+    }
+
+    private void GunOnGrenadeShoot()
+    {
+        PlayRandomSound(_soundsCollectionSO.GrenadeShoot);
+    }
+    
+    #endregion
+    
+    #region Music
     private void FightMusic()
     {
         PlayRandomSound(_soundsCollectionSO.FightMusic);
@@ -136,9 +168,5 @@ public class AudioManager : MonoBehaviour
         var soundLength = _soundsCollectionSO.DiscoBallMusic[0].Clip.length;
         Miscelanius.Utils.RunAfterDelay(this, soundLength, FightMusic);
     }
-
-    private void OnJetpack()
-    {
-        PlayRandomSound(_soundsCollectionSO.Jetpack);
-    }
+    #endregion
 }

@@ -6,11 +6,13 @@ public class PlayerInput : MonoBehaviour
 {
     public FrameInput FrameInput { get; private set; }
     public static event Action OnShot;
+    public static event Action OnGrenade;
     private PlayerInputActions _playerInputActions;
     private InputAction _jump;
     private InputAction _move;
     private InputAction _shoot;
     private InputAction _jetpack;
+    private InputAction _grenade;
 
     private void Awake()
     {
@@ -19,12 +21,14 @@ public class PlayerInput : MonoBehaviour
         _move = _playerInputActions.Player.Move;
         _shoot = _playerInputActions.Player.Shoot;
         _jetpack = _playerInputActions.Player.Jetpack;
+        _grenade = _playerInputActions.Player.Grenade;
     }
 
     private void OnEnable()
     {
         _playerInputActions.Enable();
         _shoot.performed += Shoot;
+        _grenade.performed += Grenade;
     }
 
     private void OnDisable()
@@ -38,6 +42,11 @@ public class PlayerInput : MonoBehaviour
         OnShot?.Invoke();
     }
 
+    private void Grenade(InputAction.CallbackContext obj)
+    {
+        OnGrenade?.Invoke();
+    }
+
     private void Update()
     {
         FrameInput = GatherInput();
@@ -49,7 +58,7 @@ public class PlayerInput : MonoBehaviour
         {
             Jump = _jump.WasPressedThisDynamicUpdate(),
             Move = _move.ReadValue<Vector2>(),
-            Jetpack = _jetpack.WasPressedThisFrame()
+            Jetpack = _jetpack.WasPressedThisFrame(),
         };
     }
 }
