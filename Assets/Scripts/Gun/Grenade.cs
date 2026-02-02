@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,16 +13,22 @@ public class Grenade : MonoBehaviour
     // Use Physics2D.OverlapCircleAll to damage all enemies it hits
 
     public Action OnExplode;
+    public Action OnBeep;
     
     [SerializeField] private float _launchForce = 15f;
     [SerializeField] private float _torqueAmount = 2f;
     [SerializeField] private float _explosionRadious = 3.5f;
     [SerializeField] private int _damageAmount = 3;
+    [SerializeField] private float _lightBlinkTime = 0.15f;
+    [SerializeField] private int _totalBlinks = 3;
+    [SerializeField] private float _explodeTime = 3f;
     [SerializeField] private GameObject _explodeVFX;
+    [SerializeField] private GameObject _grenadeLight;
     [SerializeField] private LayerMask _enemyLayerMask;
 
     private Rigidbody2D _rigidbody;
     private CinemachineImpulseSource _impulseSource;
+    private int _currentBlinks = 0;
 
     private void Awake()
     {
@@ -32,6 +39,7 @@ public class Grenade : MonoBehaviour
     private void Start()
     {
         LaunchGrenade();
+        StartCoroutine(CountdownExplodeRoutine());
     }
 
     private void OnEnable()
@@ -39,6 +47,7 @@ public class Grenade : MonoBehaviour
         OnExplode += Explosion;
         OnExplode += GrenadeScreenShake;
         OnExplode += DamageNearby;
+        OnBeep += BlinkLight;
     }
 
     private void OnDisable()
@@ -46,6 +55,7 @@ public class Grenade : MonoBehaviour
         OnExplode -= Explosion;
         OnExplode -= GrenadeScreenShake;
         OnExplode -=DamageNearby;
+        OnBeep -= BlinkLight;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -84,5 +94,23 @@ public class Grenade : MonoBehaviour
             var health = hit.GetComponent<Health>();
             health?.TakeDamage(_damageAmount);
         }
+    }
+    
+    private IEnumerator CountdownExplodeRoutine(){
+        while (_currentBlinks < _totalBlinks)
+        {
+            yield return new WaitForSeconds(_explodeTime / _totalBlinks);
+            OnBeep?.Invoke();
+            yield return new WaitForSeconds(_lightBlinkTime);
+            _grenadeLight.gameObject.SetActive(false);
+        }
+        _currentBlinks = 0;
+        OnExplode?.Invoke();
+    }
+
+    private void BlinkLight()
+    {
+        _grenadeLight.gameObject.SetActive(true);
+        _currentBlinks++;
     }
 }

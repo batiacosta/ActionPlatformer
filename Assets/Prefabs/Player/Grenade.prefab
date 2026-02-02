@@ -145,7 +145,11 @@ MonoBehaviour:
   _torqueAmount: 2
   _explosionRadious: 3.5
   _damageAmount: 3
+  _lightBlinkTime: 0.15
+  _totalBlinks: 3
+  _explodeTime: 3
   _explodeVFX: {fileID: 197312896266746385, guid: a386807921b6647dab711f6a1e901b84, type: 3}
+  _grenadeLight: {fileID: 3136145048730345965}
   _enemyLayerMask:
     serializedVersion: 2
     m_Bits: 128
