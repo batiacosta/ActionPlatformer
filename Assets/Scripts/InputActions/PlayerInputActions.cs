@@ -127,6 +127,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Grenade"",
+                    ""type"": ""Button"",
+                    ""id"": ""201fc75e-4001-4488-ac5d-43622a0e1692"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -239,6 +248,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Jetpack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""053a4a31-c507-4d0c-8dab-4ca02b2bcd75"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Grenade"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -251,6 +271,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Shoot = m_Player.FindAction("Shoot", throwIfNotFound: true);
         m_Player_Jetpack = m_Player.FindAction("Jetpack", throwIfNotFound: true);
+        m_Player_Grenade = m_Player.FindAction("Grenade", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -335,6 +356,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Shoot;
     private readonly InputAction m_Player_Jetpack;
+    private readonly InputAction m_Player_Grenade;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -362,6 +384,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/Jetpack".
         /// </summary>
         public InputAction @Jetpack => m_Wrapper.m_Player_Jetpack;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Grenade".
+        /// </summary>
+        public InputAction @Grenade => m_Wrapper.m_Player_Grenade;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -400,6 +426,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Jetpack.started += instance.OnJetpack;
             @Jetpack.performed += instance.OnJetpack;
             @Jetpack.canceled += instance.OnJetpack;
+            @Grenade.started += instance.OnGrenade;
+            @Grenade.performed += instance.OnGrenade;
+            @Grenade.canceled += instance.OnGrenade;
         }
 
         /// <summary>
@@ -423,6 +452,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Jetpack.started -= instance.OnJetpack;
             @Jetpack.performed -= instance.OnJetpack;
             @Jetpack.canceled -= instance.OnJetpack;
+            @Grenade.started -= instance.OnGrenade;
+            @Grenade.performed -= instance.OnGrenade;
+            @Grenade.canceled -= instance.OnGrenade;
         }
 
         /// <summary>
@@ -491,5 +523,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJetpack(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Grenade" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnGrenade(InputAction.CallbackContext context);
     }
 }
