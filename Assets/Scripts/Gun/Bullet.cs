@@ -38,7 +38,7 @@ public class Bullet : MonoBehaviour
             hitable.TakeHit();
 
         if (other.TryGetComponent(out IDamageable damageable)) 
-            damageable.TakeDamage(_damageAmount, _knockbackThrust);
+            damageable.TakeDamage(_fireDirection, _damageAmount, _knockbackThrust);
         
         
         _gun.ReleaseBulletPool(this);

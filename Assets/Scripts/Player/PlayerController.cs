@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _coyoteTime = 0.5f;
     [SerializeField] private float _jetpackTime = 0.6f;
     [SerializeField] private float _jetpackStrength = 11f;
+    [SerializeField] private float _maxFallSpeedVelocity = -20f;
     
     private Rigidbody2D _rigidBody;
 
@@ -52,6 +53,13 @@ public class PlayerController : MonoBehaviour
         OnJump -= ApplyJumpForce;
         OnJetpack -= StartJetpack;
     }
+
+    private void OnDestroy()
+    {
+        var fade = FindFirstObjectByType<Fade>();
+        fade?.FadeInOut();
+    }
+
     public bool CheckIfGrounded()
     {
         var isGrounded = Physics2D.OverlapBox(_feetTransform.position, _groundCheck, 0f, _groundLayer);
@@ -102,6 +110,10 @@ public class PlayerController : MonoBehaviour
         if (_timeInAir > _gravityDelay)
         {
             _rigidBody.AddForce(new Vector2(0, -_extraGravity * Time.deltaTime));
+            if (_rigidBody.linearVelocityY < _maxFallSpeedVelocity)
+            {
+                _rigidBody.linearVelocityY = _maxFallSpeedVelocity;
+            }
         }
     }
     private void GatherInput()

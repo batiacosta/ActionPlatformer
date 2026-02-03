@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 using Random = UnityEngine.Random;
@@ -30,7 +32,7 @@ public class AudioManager : MonoBehaviour
         Gun.OnGrenateShoot += GunOnGrenadeShoot;
         PlayerController.OnJump += OnJump;
         PlayerController.OnJetpack += OnJetpack;
-        Health.OnDeath += OnDeath;
+        Health.OnDeath += HandleDeath;
         PartyManager.OnDiscoBallHit += DiscoBallMusic;
     }
 
@@ -40,7 +42,7 @@ public class AudioManager : MonoBehaviour
         Gun.OnGrenateShoot -= GunOnGrenadeShoot;
         PlayerController.OnJump -= OnJump;
         PlayerController.OnJetpack -= OnJetpack;
-        Health.OnDeath -= OnDeath;
+        Health.OnDeath -= HandleDeath;
         PartyManager.OnDiscoBallHit -= DiscoBallMusic;
     }
 
@@ -120,6 +122,22 @@ public class AudioManager : MonoBehaviour
     }
 
     #region VFX
+    
+    public void GrenadeOnBeep()
+    {
+        PlayRandomSound(_soundsCollectionSO.GrenadeBeep);
+    }
+
+    public void OnGrenadeExplode()
+    {
+        PlayRandomSound(_soundsCollectionSO.GrenadeExplosions);
+    }
+    
+    public void EnemyOnPlayerHit()
+    {
+        PlayRandomSound(_soundsCollectionSO.PlayerHit);
+    }
+    
     private void GunOnShoot()
     {
         PlayRandomSound(_soundsCollectionSO.GunShoot);
@@ -133,26 +151,30 @@ public class AudioManager : MonoBehaviour
     {
         PlayRandomSound(_soundsCollectionSO.Splat);
     }
+    
+    private void OnDeath()
+    {
+        PlayRandomSound(_soundsCollectionSO.Splat);
+    }
 
     private void OnJetpack()
     {
         PlayRandomSound(_soundsCollectionSO.Jetpack);
     }
 
-    public void GrenadeOnBeep()
+    private void AudioManagerMegaKill()
     {
-        PlayRandomSound(_soundsCollectionSO.GrenadeBeep);
+        PlayRandomSound(_soundsCollectionSO.MegaKill);
     }
 
-    public void OnGrenadeExplode()
-    {
-        PlayRandomSound(_soundsCollectionSO.GrenadeExplosions);
-    }
+    
 
     private void GunOnGrenadeShoot()
     {
         PlayRandomSound(_soundsCollectionSO.GrenadeShoot);
     }
+    
+    
     
     #endregion
     
@@ -167,6 +189,32 @@ public class AudioManager : MonoBehaviour
         PlayRandomSound(_soundsCollectionSO.DiscoBallMusic);
         var soundLength = _soundsCollectionSO.DiscoBallMusic[0].Clip.length;
         Miscelanius.Utils.RunAfterDelay(this, soundLength, FightMusic);
+    }
+    #endregion
+    
+    #region Custom SFX Logic
+    private List<Health> _deathList = new List<Health>();
+    private Coroutine _deathCoroutine;
+
+    private void HandleDeath(Health health)
+    {
+        if (health.gameObject.TryGetComponent(out Enemy enemy)) _deathList.Add(health);
+
+        if(_deathCoroutine == null) StartCoroutine(DeathWindowRoutine());
+    }
+
+    private IEnumerator DeathWindowRoutine()
+    {
+        yield return null;
+        int megakillAmount = 3;
+        if (_deathList.Count >= megakillAmount)
+        {
+            AudioManagerMegaKill();
+        }
+        
+        OnDeath();
+        _deathList.Clear();
+        _deathCoroutine = null;
     }
     #endregion
 }
