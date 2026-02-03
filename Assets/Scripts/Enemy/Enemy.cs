@@ -29,6 +29,16 @@ public class Enemy : MonoBehaviour
         StartCoroutine(RandomJumpRoutine());
     }
 
+    private void OnEnable()
+    {
+        
+    }
+
+    private void OnDisable()
+    {
+        
+    }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (!other.gameObject.TryGetComponent(out PlayerController player)) return;
