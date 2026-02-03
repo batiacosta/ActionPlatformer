@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    public bool CanMove => _canMove;
+    
     [SerializeField] private float _movementSpeed = 10;
     
     private Rigidbody2D _rigidBody;

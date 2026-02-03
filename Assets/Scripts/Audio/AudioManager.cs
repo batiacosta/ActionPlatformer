@@ -154,6 +154,11 @@ public class AudioManager : MonoBehaviour
         PlayRandomSound(_soundsCollectionSO.GrenadeShoot);
     }
     
+    public void EnemyOnPlayerHit()
+    {
+        PlayRandomSound(_soundsCollectionSO.PlayerHit);
+    }
+    
     #endregion
     
     #region Music

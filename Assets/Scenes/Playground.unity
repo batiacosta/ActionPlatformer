@@ -18606,8 +18606,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e652642db6260344cb636626629dc1de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _splatterPrefab: {fileID: 0}
-  _deathParticlesPrefab: {fileID: 0}
+  _splatterPrefab: {fileID: 2230884441073078531, guid: 16c8ed05e032447bc8ef90d366f4d2d5, type: 3}
+  _deathParticlesPrefab: {fileID: 8612064821744391833, guid: 16cd05eec340e40f2851813f78d1037d, type: 3}
   _startingHealth: 5
 --- !u!114 &2011273896
 MonoBehaviour:
