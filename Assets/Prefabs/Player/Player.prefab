@@ -281,6 +281,7 @@ MonoBehaviour:
   _coyoteTime: 0.1
   _jetpackTime: 0.6
   _jetpackStrength: 11
+  _maxFallSpeedVelocity: -20
 --- !u!114 &8071955140927980241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,7 +301,7 @@ MonoBehaviour:
   _characterSpriteTransform: {fileID: 1201735623290110546}
   _hatSpriteTransform: {fileID: 2240104954741873293}
   _poofParticles: {fileID: 8705917040505006970}
-  _yVelocityCheck: -20
+  _yVelocityCheck: -25
 --- !u!114 &7635675765934564410
 MonoBehaviour:
   m_ObjectHideFlags: 0
