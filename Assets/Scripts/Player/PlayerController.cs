@@ -52,6 +52,13 @@ public class PlayerController : MonoBehaviour
         OnJump -= ApplyJumpForce;
         OnJetpack -= StartJetpack;
     }
+
+    private void OnDestroy()
+    {
+        var fade = FindFirstObjectByType<Fade>();
+        fade?.FadeInOut();
+    }
+
     public bool CheckIfGrounded()
     {
         var isGrounded = Physics2D.OverlapBox(_feetTransform.position, _groundCheck, 0f, _groundLayer);
