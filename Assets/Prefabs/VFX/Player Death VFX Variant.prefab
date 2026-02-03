@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 197312896266746385, guid: 5d83e5cc52e254b4e8d6b51733767b51, type: 3}
       propertyPath: m_Name
-      value: Base Death VFX
+      value: Player Death VFX Variant
       objectReference: {fileID: 0}
     - target: {fileID: 213063732553354642, guid: 5d83e5cc52e254b4e8d6b51733767b51, type: 3}
       propertyPath: m_LocalPosition.x
@@ -51,6 +51,18 @@ PrefabInstance:
     - target: {fileID: 213063732553354642, guid: 5d83e5cc52e254b4e8d6b51733767b51, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764682690058161442, guid: 5d83e5cc52e254b4e8d6b51733767b51, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.49019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764682690058161442, guid: 5d83e5cc52e254b4e8d6b51733767b51, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0.68235296
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764682690058161442, guid: 5d83e5cc52e254b4e8d6b51733767b51, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.93333334
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

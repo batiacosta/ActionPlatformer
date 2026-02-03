@@ -18,7 +18,10 @@ public class DeathSplatterHandler : MonoBehaviour
     {
         var splatterInstance = Instantiate(senderHealth.SplatterPrefab, senderHealth.transform.position, Quaternion.identity);
         var colorChanger = senderHealth.gameObject.GetComponent<ColorChanger>();
-        splatterInstance.GetComponent<SpriteRenderer>().color = colorChanger.DefaultColor;
+        if (colorChanger != null)
+        {
+            splatterInstance.GetComponent<SpriteRenderer>().color = colorChanger.DefaultColor;    
+        }
         splatterInstance.transform.SetParent(this.transform);
     }
 
@@ -27,7 +30,11 @@ public class DeathSplatterHandler : MonoBehaviour
         var particlesInstance = Instantiate(senderHealth.DeathParticlesPrefab, senderHealth.transform.position, Quaternion.identity);
         var particles = particlesInstance.GetComponent<ParticleSystem>().main;
         var colorChanger = senderHealth.gameObject.GetComponent<ColorChanger>();
-        particles.startColor = colorChanger.DefaultColor;
+        if (colorChanger != null)
+        {
+            particles.startColor = colorChanger.DefaultColor;
+        }
+        
         particlesInstance.transform.SetParent(this.transform);
     }
 }
