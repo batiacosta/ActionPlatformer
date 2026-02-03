@@ -1,6 +1,8 @@
 # Action Platformer (Demo)
 
 Playable build: https://play.unity.com/api/v1/games/game/5da38c43-c314-4483-b591-c95174bbe60b/build/latest/frame
+<img width="889" height="527" alt="Screenshot 2026-02-03 at 5 51 54 PM" src="https://github.com/user-attachments/assets/6e8322ac-f1ab-402c-bedc-6403f1c9591a" />
+
 
 ## Overview
 Action Platformer is a Unity 6 demo focused on responsive movement, satisfying combat feedback, and dynamic audiovisual moments.
