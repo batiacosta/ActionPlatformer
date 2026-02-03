@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MegaKill
   m_EditorClassIdentifier: Assembly-CSharp::SoundSO
   AudioType: 0
-  Clip: {fileID: 0}
+  Clip: {fileID: 8300000, guid: 6e8dd87d888714dca9255d7670338618, type: 3}
   Loop: 0
   RandomizePitch: 0
   RandomPitchRangeModifier: 0.1
