@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
     private void OnDestroy()
     {
         var fade = FindFirstObjectByType<Fade>();
-        fade.FadeIn();
+        fade.FadeInOut();
     }
 
     public bool CheckIfGrounded()

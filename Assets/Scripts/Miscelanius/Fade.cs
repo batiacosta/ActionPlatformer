@@ -19,16 +19,14 @@ public class Fade : MonoBehaviour
         _cinemachineCamera = FindFirstObjectByType<CinemachineCamera>();
     }
 
-    public void FadeIn()
+    private IEnumerator FadeIn()
     {
-        Debug.Log("FadeIn");
-        StartCoroutine(FadeRoutine(1f));
-    }
-
-    private void FadeOut()
-    {
+        yield return StartCoroutine(FadeRoutine(1f));
+        // Respawn
+        Respawn();
         StartCoroutine(FadeRoutine(0f));
     }
+    
 
     private IEnumerator FadeRoutine(float targetAlpha)
     {
@@ -42,5 +40,16 @@ public class Fade : MonoBehaviour
             yield return null;
         }
         _image.color = new Color(_image.color.r, _image.color.g, _image.color.b, targetAlpha);
+    }
+
+    private void Respawn()
+    {
+        var player =Instantiate(_playerPrefab, _respawnPoint.position, Quaternion.identity);
+        _cinemachineCamera.Follow = player.transform;
+    }
+
+    public void FadeInOut()
+    {
+        StartCoroutine(FadeIn());
     }
 }
