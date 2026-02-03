@@ -12,9 +12,18 @@ Action Platformer is a Unity 6 demo focused on responsive movement, satisfying c
 - Cinemachine camera follow
 - Screen shake on player damage and high falls
 - Disco ball event: lighting and music shift temporarily when hit by a bullet
-- Surface splat decals using masking when enemies die
-- Weapons: normal bullets and grenades
+- Surface splat decals using masking when enemies die.
+![Splats](https://github.com/user-attachments/assets/9cd05bef-bc32-4e64-9707-1cae1ee8f188)
+
+  
+- Weapons: normal bullets (left click) and grenades (right click)
+![bullets](https://github.com/user-attachments/assets/1611ac82-1c82-46e3-8582-261a039f32df)
+
+
 - Jetpack (press `J`)
+
+  ![Jetpack](https://github.com/user-attachments/assets/e25baa93-2896-43bd-9e8d-4f6049850bc2)
+
 - Safe respawn when the player dies
 
 ## Controls (Default)
