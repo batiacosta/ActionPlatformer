@@ -205,12 +205,10 @@ public class AudioManager : MonoBehaviour
 
     private IEnumerator DeathWindowRoutine()
     {
-        Debug.Log($"Inicia coroutina {_deathList.Count}");
         yield return null;
         int megakillAmount = 3;
         if (_deathList.Count >= megakillAmount)
         {
-            Debug.Log("Megakill amount is " + megakillAmount);
             AudioManagerMegaKill();
         }
         
